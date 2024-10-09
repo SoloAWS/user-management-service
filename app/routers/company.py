@@ -7,7 +7,7 @@ from datetime import date
 
 router = APIRouter(prefix="/company-management", tags=["Company"])
 
-CRUD_SERVICE_URL = os.getenv("CRUD_SERVICE_URL", "http://localhost:8001")
+CRUD_SERVICE_URL = os.getenv("CRUD_SERVICE_URL", "http://192.168.68.111:8000")
 
 def date_to_str(obj):
     if isinstance(obj, date):
