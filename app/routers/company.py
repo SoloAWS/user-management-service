@@ -1,18 +1,28 @@
 from fastapi import APIRouter, HTTPException, Path, Query
 from ..schemas.user import CompanyCreate, CompanyResponse
 import requests
-from typing import List
 import os
+from datetime import date
+
 
 router = APIRouter(prefix="/company-management", tags=["Company"])
 
-CRUD_SERVICE_URL = os.getenv("CRUD_SERVICE_URL", "http://192.168.68.111:8000")
+CRUD_SERVICE_URL = os.getenv("CRUD_SERVICE_URL", "http://localhost:8001")
+
+def date_to_str(obj):
+    if isinstance(obj, date):
+        return obj.isoformat()
+    raise TypeError(f'Object of type {obj.__class__.__name__} is not JSON serializable')
+
 
 def create_company_request(company: CompanyCreate):
     api_url = CRUD_SERVICE_URL
     endpoint = "/company/"
     data = company.model_dump()
-
+    
+    if 'birth_date' in data:
+        data['birth_date'] = date_to_str(data['birth_date'])
+        
     response = requests.post(api_url + endpoint, json=data)
     return response.json(), response.status_code
 
