@@ -7,7 +7,7 @@ from datetime import date
 
 router = APIRouter(prefix="/company-management", tags=["Company"])
 
-CRUD_SERVICE_URL = os.getenv("CRUD_SERVICE_URL", "http://192.168.68.111:8000")
+USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://user-service:8000")
 
 def date_to_str(obj):
     if isinstance(obj, date):
@@ -16,7 +16,7 @@ def date_to_str(obj):
 
 
 def create_company_request(company: CompanyCreate):
-    api_url = CRUD_SERVICE_URL
+    api_url = USER_SERVICE_URL
     endpoint = "/company/"
     data = company.model_dump()
     
@@ -27,7 +27,7 @@ def create_company_request(company: CompanyCreate):
     return response.json(), response.status_code
 
 def get_company_request(company_id: str):
-    api_url = CRUD_SERVICE_URL
+    api_url = USER_SERVICE_URL
     endpoint = f"/company/{company_id}"
 
     response = requests.get(api_url + endpoint)
