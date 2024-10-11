@@ -8,7 +8,7 @@ import jwt
 router = APIRouter(prefix="/company-management", tags=["Company"])
 
 USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://user-service:8000")
-SECRET_KEY = os.environ['JWT_SECRET_KEY']
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'secret_key')
 ALGORITHM = "HS256"
 
 def get_current_user(token: str = Header(None)):
