@@ -7,7 +7,7 @@ import jwt
 
 router = APIRouter(prefix="/company-management", tags=["Company"])
 
-USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://user-service:8000")
+USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://192.168.68.111:8001")
 SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'secret_key')
 ALGORITHM = "HS256"
 
@@ -23,7 +23,8 @@ def get_current_user(token: str = Header(None)):
 def create_company_request(company: CompanyCreate):
     api_url = USER_SERVICE_URL
     endpoint = "/company/"
-    response = requests.post(f"{api_url}{endpoint}", json=company.dict())
+    company_json = company.model_dump_json()
+    response = requests.post(f"{api_url}{endpoint}", data=company_json, headers={'Content-Type': 'application/json'})
     return response.json(), response.status_code
 
 def get_company_request(company_id: str, token: str):
