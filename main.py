@@ -52,7 +52,7 @@ async def test_db_connection(db: SessionLocal = Depends(get_db)):
 @app.get("/user-management/create-incident/{user_id}")
 async def create_incident(user_id: int):
     async with httpx.AsyncClient() as client:
-        response = await client.post(f"{INCIDENT_MANAGEMENT_URL}/incident-management/incidents", json={"user_id": user_id})
+        response = await client.post(f"{INCIDENT_MANAGEMENT_URL}/incidents", json={"user_id": user_id})
     return response.json()
 
 if __name__ == "__main__":
