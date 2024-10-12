@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/user-management")
 async def user_management_root():
-    return {"message": "User Management Hello World"}
+    return {"message": "User Management Blue Green"}
 
 @app.get("/user-management/health")
 async def health():
