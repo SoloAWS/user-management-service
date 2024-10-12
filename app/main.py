@@ -11,7 +11,7 @@ app = FastAPI()
 app.include_router(company.router)
 version = "1.0"
 
-@app.get("/health")
+@app.get("/user-management/health")
 async def health():
     return {"status": "OK"}
 
