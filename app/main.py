@@ -23,7 +23,7 @@ version = "1.0"
 
 @app.get("/user-management/health")
 async def health():
-    return {"status": "OK CORS"}
+    return {"status": "OK Python 2"}
 
 @app.exception_handler(ApiError)
 async def api_error_exception_handler(request: Request, exc: ApiError):
