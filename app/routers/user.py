@@ -9,7 +9,7 @@ import jwt
 router = APIRouter(prefix="/user-management/user", tags=["User"])
 
 USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://192.168.68.111:8002/user")
-INCIDENT_SERVICE_URL = os.getenv("INCIDENT_SERVICE_URL", "http://localhost:8003")
+QUERY_INCIDENT_SERVICE_URL = os.getenv("QUERY_INCIDENT_SERVICE_URL", "http://localhost:8003/incident")
 SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'secret_key')
 ALGORITHM = "HS256"
 
@@ -21,8 +21,8 @@ def get_user_info_request(user_id: UUID, token: str):
     return response.json(), response.status_code
 
 def get_user_incidents_request(user_id: UUID, company_id: UUID, token: str):
-    api_url = INCIDENT_SERVICE_URL
-    endpoint = "/incidents"  # Adjust this endpoint as needed
+    api_url = QUERY_INCIDENT_SERVICE_URL
+    endpoint = "/user-company"
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
