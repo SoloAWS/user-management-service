@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import company
+from .routers import company, user
 from .errors.errors import ApiError
 
 app = FastAPI()
@@ -19,6 +19,8 @@ app.add_middleware(
 )
 
 app.include_router(company.router)
+app.include_router(user.router)
+
 version = "1.0"
 
 @app.get("/user-management/health")
