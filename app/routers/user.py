@@ -57,13 +57,13 @@ def get_user_companies_request(user_doc_info: UserDocumentInfo, token: str):
 @router.post("/companies", response_model= UserCompaniesResponseFiltered)
 def get_user_companies(
     user_doc_info: UserDocumentInfo,
-    #current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user)
 ):
-    # if not current_user:
-    #     raise HTTPException(status_code=401, detail="Authentication required")
+    if not current_user:
+         raise HTTPException(status_code=401, detail="Authentication required")
     
-    #token = jwt.encode(current_user, SECRET_KEY, algorithm=ALGORITHM)
-    response_data, status_code = get_user_companies_request(user_doc_info, 'token')
+    token = jwt.encode(current_user, SECRET_KEY, algorithm=ALGORITHM)
+    response_data, status_code = get_user_companies_request(user_doc_info, token)
     
     if status_code != 200:
         raise HTTPException(status_code=status_code, detail=response_data)
@@ -73,18 +73,18 @@ def get_user_companies(
 @router.post("/users-view", response_model=UserWithIncidents)
 async def get_user_with_incidents(
     request_data: UserCompanyRequest,
-    #current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user)
 ):
-    #if not current_user:
-     #   raise HTTPException(status_code=401, detail="Authentication required")
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Authentication required")
     
-    #token = jwt.encode(current_user, SECRET_KEY, algorithm=ALGORITHM)
+    token = jwt.encode(current_user, SECRET_KEY, algorithm=ALGORITHM)
     
-    user_data, user_status = get_user_info_request(request_data.user_id, 'token')
+    user_data, user_status = get_user_info_request(request_data.user_id, token)
     if user_status != 200:
         raise HTTPException(status_code=user_status, detail=user_data)
     
-    incidents_data, incidents_status = get_user_incidents_request(request_data.user_id, request_data.company_id, 'token')
+    incidents_data, incidents_status = get_user_incidents_request(request_data.user_id, request_data.company_id, token)
     if incidents_status != 200:
         raise HTTPException(status_code=incidents_status, detail=incidents_data)
     
