@@ -1,5 +1,6 @@
+from uuid import UUID
 from pydantic import BaseModel, EmailStr, field_validator, Field
-from datetime import date
+from datetime import date, datetime
 import re
 from typing import List
     
@@ -25,7 +26,7 @@ class CompanyCreate(AbcallUserCreate):
         return v
 
 class CompanyResponse(BaseModel):
-    id: str
+    id: UUID
     name: str
     first_name: str
     last_name: str
@@ -34,3 +35,44 @@ class CompanyResponse(BaseModel):
     country: str
     city: str
     username: EmailStr
+    
+class CompanyResponseFiltered(BaseModel):
+    id: UUID
+    name: str
+    
+class UserDocumentInfo(BaseModel):
+    document_type: str
+    document_id: str
+    
+class UserResponse(BaseModel):
+    id: UUID
+    username: EmailStr
+    first_name: str
+    last_name: str
+    document_id: str
+    document_type: str
+    birth_date: date
+    phone_number: str
+    importance: int
+    allow_call: bool
+    allow_sms: bool
+    allow_email: bool
+    registration_date: datetime
+    
+class IncidentResponse(BaseModel):
+    id: UUID
+    description: str
+    state: str
+    creation_date: datetime
+
+class UserWithIncidents(UserResponse):
+    incidents: List[IncidentResponse]
+    
+class UserCompanyRequest(BaseModel):
+    user_id: UUID
+    company_id: UUID
+    
+class UserCompaniesResponseFiltered(BaseModel):
+    user_id: UUID
+    companies: List[CompanyResponseFiltered]
+    

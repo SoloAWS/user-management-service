@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, HTTPException, Path, Query, Header, Depends
 from ..schemas.user import CompanyCreate, CompanyResponse
 import requests
@@ -7,7 +8,7 @@ import jwt
 
 router = APIRouter(prefix="/user-management/company", tags=["Company"])
 
-USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://localhost:8002")
+USER_SERVICE_URL = os.getenv("USER_SERVICE_URL", "http://192.168.68.111:8002/user")
 SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'secret_key')
 ALGORITHM = "HS256"
 
