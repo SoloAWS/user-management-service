@@ -28,7 +28,7 @@ This microservice provides a simple API for user management.
 To run the service locally:
 
 ```
-uvicorn main:app --reload --port 8001
+uvicorn app.main:app --reload --port 8001
 ```
 
 The service will be available at `http://localhost:8001`.
@@ -51,5 +51,5 @@ Make sure to expose port 8001 in your Dockerfile:
 
 ```dockerfile
 EXPOSE 8001
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
 ```
