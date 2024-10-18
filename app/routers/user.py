@@ -16,7 +16,7 @@ ALGORITHM = "HS256"
 def get_user_info_request(user_id: UUID, token: str):
     api_url = USER_SERVICE_URL
     endpoint = f"/user/{user_id}"
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = {"token": f"{token}"}
     response = requests.get(f"{api_url}{endpoint}", headers=headers)
     return response.json(), response.status_code
 
@@ -24,7 +24,7 @@ def get_user_incidents_request(user_id: UUID, company_id: UUID, token: str):
     api_url = QUERY_INCIDENT_SERVICE_URL
     endpoint = "/user-company"
     headers = {
-        "Authorization": f"Bearer {token}",
+        "token": f"{token}",
         "Content-Type": "application/json"
     }
     data = {
@@ -47,7 +47,7 @@ def get_user_companies_request(user_doc_info: UserDocumentInfo, token: str):
     api_url = USER_SERVICE_URL
     endpoint = "user/companies"
     headers = {
-        "Authorization": f"Bearer {token}",
+        "token": f"{token}",
         "Content-Type": "application/json"
     }
     data = user_doc_info.model_dump_json()
@@ -58,7 +58,7 @@ def get_user_companies_request_user(user_doc_info: UserIdRequest, token: str):
     api_url = USER_SERVICE_URL
     endpoint = "user/companies-user"
     headers = {
-        "Authorization": f"Bearer {token}",
+        "token": f"{token}",
         "Content-Type": "application/json"
     }
     data = user_doc_info.model_dump_json()
