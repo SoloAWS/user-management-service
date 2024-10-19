@@ -31,7 +31,7 @@ def create_company_request(company: CompanyCreate):
 def get_company_request(company_id: str, token: str):
     api_url = USER_SERVICE_URL
     endpoint = f"/company/{company_id}"
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = {"token": f"{token}"}
     response = requests.get(f"{api_url}{endpoint}", headers=headers)
     return response.json(), response.status_code
 

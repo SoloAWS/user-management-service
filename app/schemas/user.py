@@ -44,6 +44,9 @@ class UserDocumentInfo(BaseModel):
     document_type: str
     document_id: str
     
+class UserIdRequest(BaseModel):
+    id: UUID
+    
 class UserResponse(BaseModel):
     id: UUID
     username: EmailStr
