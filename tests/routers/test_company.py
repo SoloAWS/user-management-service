@@ -76,15 +76,15 @@ class TestCompanyManagement(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"detail": {"detail": "Error creating company"}})
 
-    #def test_get_company_unauthorized(self):
-    #    response = client.get("/user-management/company/12345678-1234-5678-1234-567812345678")
-    #    self.assertEqual(response.status_code, 401)
-    #    self.assertEqual(response.json(), {"detail": "Authentication required"})
+    def test_get_company_unauthorized(self):
+       response = client.get("/user-management/company/12345678-1234-5678-1234-567812345678")
+       self.assertEqual(response.status_code, 401)
+       self.assertEqual(response.json(), {"detail": "Authentication required"})
 
-    #def test_get_company_invalid_token(self):
-    #    response = client.get("/user-management/company/12345678-1234-5678-1234-567812345678", headers={"Authorization": "Bearer invalid_token"})
-    #    self.assertEqual(response.status_code, 401)
-    #    self.assertEqual(response.json(), {"detail": "Authentication required"})
+    def test_get_company_invalid_token(self):
+       response = client.get("/user-management/company/12345678-1234-5678-1234-567812345678", headers={"Authorization": "Bearer invalid_token"})
+       self.assertEqual(response.status_code, 401)
+       self.assertEqual(response.json(), {"detail": "Authentication required"})
 
     @patch('requests.post')
     def test_create_company_request(self, mock_post):
