@@ -36,7 +36,7 @@ def get_company_request(company_id: str, token: str):
     response = requests.get(f"{api_url}{endpoint}", headers=headers)
     return response.json(), response.status_code
 
-@router.post("/", response_model=CompanyResponse, status_code=201)
+@router.post("/create", response_model=CompanyResponse, status_code=201)
 def create_company(company: CompanyCreate):
     response_data, status_code = create_company_request(company)
     if status_code != 201:

@@ -39,7 +39,8 @@ class TestCompanyManagement(unittest.TestCase):
             "birth_date": "2023-01-01",
             "phone_number": "+12 345 678 9012",
             "country": "TestCountry",
-            "city": "TestCity"
+            "city": "TestCity",
+            "plan_id": "12345678-1234-5678-1234-567812345677"
         }, 201)
 
         company_data = CompanyCreate(
@@ -53,7 +54,7 @@ class TestCompanyManagement(unittest.TestCase):
             country="TestCountry",
             city="TestCity"
         )
-        response = client.post("/user-management/company/", json=json.loads(json.dumps(company_data.dict(), default=json_serializable)))
+        response = client.post("/user-management/company/create", json=json.loads(json.dumps(company_data.dict(), default=json_serializable)))
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()["name"], "Test Company")
 
@@ -72,7 +73,7 @@ class TestCompanyManagement(unittest.TestCase):
             country="TestCountry",
             city="TestCity"
         )
-        response = client.post("/user-management/company/", json=json.loads(json.dumps(company_data.dict(), default=json_serializable)))
+        response = client.post("/user-management/company/create", json=json.loads(json.dumps(company_data.dict(), default=json_serializable)))
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"detail": {"detail": "Error creating company"}})
 

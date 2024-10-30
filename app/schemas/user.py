@@ -2,7 +2,7 @@ from uuid import UUID
 from pydantic import BaseModel, EmailStr, field_validator, Field
 from datetime import date, datetime
 import re
-from typing import List
+from typing import List, Optional
     
 class AbcallUserCreate(BaseModel):
     username: EmailStr
@@ -35,6 +35,7 @@ class CompanyResponse(BaseModel):
     country: str
     city: str
     username: EmailStr
+    plan_id: Optional[UUID]
     
 class CompanyResponseFiltered(BaseModel):
     id: UUID
