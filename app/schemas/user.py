@@ -80,3 +80,50 @@ class UserCompaniesResponseFiltered(BaseModel):
     user_id: UUID
     companies: List[CompanyResponseFiltered]
     
+class UserCreate(AbcallUserCreate):    
+    document_id: str
+    document_type: str
+    birth_date: date
+    phone_number: str
+    importance: int = Field(..., ge=1, le=10)
+    allow_call: bool
+    allow_sms: bool
+    allow_email: bool
+
+    @field_validator('first_name', 'last_name')
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        if not re.match(r'^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]{1,50}$', v):
+            raise ValueError('Name must contain only letters and be max 50 characters')
+        return v
+
+    @field_validator('importance')
+    @classmethod
+    def validate_importancia(cls, v: int) -> int:
+        if v < 1 or v > 10:
+            raise ValueError('Importance must be between 1 and 10')
+        return v
+
+    model_config = {
+        "from_attributes": True
+    }
+    
+class UserResponse(BaseModel):
+    id: UUID
+    username: EmailStr
+    first_name: str
+    last_name: str
+    document_id: str
+    document_type: str
+    birth_date: date
+    phone_number: str
+    importance: int
+    allow_call: bool
+    allow_sms: bool
+    allow_email: bool
+    registration_date: datetime
+
+    model_config = {
+        "from_attributes": True
+    }
+    
