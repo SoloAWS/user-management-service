@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Header, Depends
-from ..schemas.user import UserIdRequest, UserDocumentInfo, UserCompanyRequest, UserWithIncidents, UserCompaniesResponseFiltered
+from ..schemas.user import UserCreate, UserResponse,UserIdRequest, UserDocumentInfo, UserCompanyRequest, UserWithIncidents, UserCompaniesResponseFiltered
 import requests
 import os
 import jwt
@@ -22,6 +22,13 @@ def get_current_user(authorization: str = Header(None)):
         return payload
     except jwt.PyJWTError:
         return None
+
+def create_user_request(user: UserCreate):
+    api_url = USER_SERVICE_URL
+    endpoint = "/user/"
+    user_json = user.model_dump_json()
+    response = requests.post(f"{api_url}{endpoint}", data=user_json, headers={'Content-Type': 'application/json'})
+    return response.json(), response.status_code
 
 def get_user_info_request(user_id: UUID, token: str):
     api_url = USER_SERVICE_URL
@@ -98,8 +105,6 @@ def get_user_companies(
     
     return response_data
 
-
-
 @router.post("/users-view", response_model=UserWithIncidents)
 async def get_user_with_incidents(
     request_data: UserCompanyRequest,
@@ -121,3 +126,10 @@ async def get_user_with_incidents(
     user_with_incidents = UserWithIncidents(**user_data, incidents=incidents_data)
     
     return user_with_incidents
+
+@router.post("/create", response_model=UserResponse, status_code=201)
+def create_company(company: UserCreate):
+    response_data, status_code = create_user_request(company)
+    if status_code != 201:
+        raise HTTPException(status_code=status_code, detail=response_data)
+    return response_data
